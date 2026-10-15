@@ -44,11 +44,14 @@ def index():
             button:hover { background: #0056b3; }
             .btn-success { background: #28a745; }
             .btn-success:hover { background: #218838; }
+            .btn-danger { background: #dc3545; }
+            .btn-danger:hover { background: #c82333; }
             .row { display: flex; flex-wrap: wrap; gap: 20px; }
             .col { flex: 1; min-width: 280px; background: #fdfdfd; padding: 15px; border: 1px solid #ddd; border-radius: 6px; }
-            .item-list, .cart-list { margin-top: 10px; max-height: 200px; overflow-y: auto; border: 1px solid #eee; padding: 8px; }
+            .item-list, .cart-list { margin-top: 10px; max-height: 200px; overflow-y: auto; border: 1px solid #eee; padding: 8px; display: none; }
             .item { background: #fff; padding: 8px; margin-bottom: 5px; border-left: 4px solid #007bff; display: flex; justify-content: space-between; align-items: center; }
             .cart-item { background: #fff; padding: 6px; margin-bottom: 4px; border-left: 4px solid #28a745; font-size: 14px; display: flex; justify-content: space-between; }
+            .shortcuts-info { font-size: 12px; color: #666; background: #f1f1f1; padding: 8px; border-radius: 4px; margin-top: 10px; }
         </style>
     </head>
     <body>
@@ -62,7 +65,13 @@ def index():
                     <input type="text" id="busqueda" placeholder="Escribe el nombre o código..." onkeyup="filtrarProductos()">
                     
                     <div class="item-list" id="lista-productos">
-                        <p>Cargando inventario...</p>
+                        <p>Escribe algo para buscar...</p>
+                    </div>
+
+                    <div class="shortcuts-info">
+                        <b>Atajos de Teclado:</b><br>
+                        [F1] Mostrar todo | [F2] Limpiar búsqueda<br>
+                        [F3] Cobrar factura | [F4] Cancelar carrito
                     </div>
 
                     <h3 style="margin-top:20px;">➕ Registrar Producto Nuevo</h3>
@@ -76,11 +85,12 @@ def index():
                 <!-- Columna Derecha: Carrito y Facturación -->
                 <div class="col">
                     <h3>🛍️ Carrito de Venta</h3>
-                    <div class="cart-list" id="lista-carrito">
+                    <div class="cart-list" id="lista-carrito" style="display: block;">
                         <p>El carrito está vacío.</p>
                     </div>
                     <h3 style="margin-top:15px;">Total: $<span id="total-venta">0.00</span></h3>
-                    <button class="btn-success" onclick="procesarVenta()">🖨️ Cobrar y Generar Factura</button>
+                    <button class="btn-success" onclick="procesarVenta()">🖨️ Cobrar y Generar Factura [F3]</button>
+                    <button class="btn-danger" onclick="cancelarCarrito()" style="margin-top: 5px;">❌ Cancelar Compra [F4]</button>
                 </div>
             </div>
         </div>
@@ -92,13 +102,20 @@ def index():
             async function cargarProductos() {
                 const res = await fetch('/productos');
                 inventarioGlobal = await res.json();
-                mostrarInventario(inventarioGlobal);
             }
 
-            function mostrarInventario(productos) {
+            function mostrarInventario(productos, forzarVisible = false) {
                 const contenedor = document.getElementById('lista-productos');
+                const textoBusqueda = document.getElementById('busqueda').value.trim();
+
+                if (textoBusqueda === '' && !forzarVisible) {
+                    contenedor.style.display = 'none';
+                    return;
+                }
+
+                contenedor.style.display = 'block';
                 if(productos.length === 0) {
-                    contenedor.innerHTML = '<p>No hay productos registrados.</p>';
+                    contenedor.innerHTML = '<p>No se encontraron productos.</p>';
                     return;
                 }
                 contenedor.innerHTML = productos.map(p => `
@@ -110,9 +127,27 @@ def index():
             }
 
             function filtrarProductos() {
-                const texto = document.getElementById('busqueda').value.toLowerCase();
+                const texto = document.getElementById('busqueda').value.toLowerCase().trim();
+                if(texto === '') {
+                    document.getElementById('lista-productos').style.display = 'none';
+                    return;
+                }
+                // Búsqueda inteligente por coincidencia parcial en nombre o código
                 const filtrados = inventarioGlobal.filter(p => p[1].toLowerCase().includes(texto) || p[2].toLowerCase().includes(texto));
                 mostrarInventario(filtrados);
+            }
+
+            function limpiarBusqueda() {
+                document.getElementById('busqueda').value = '';
+                document.getElementById('lista-productos').style.display = 'none';
+            }
+
+            function cancelarCarrito() {
+                if(carrito.length === 0) return;
+                if(confirm('¿Estás seguro de cancelar la compra actual?')) {
+                    carrito = [];
+                    actualizarCarrito();
+                }
             }
 
             async function guardarProducto() {
@@ -204,6 +239,23 @@ def index():
                     alert('Error al procesar la venta.');
                 }
             }
+
+            // Manejo de Atajos de Teclado (F1, F2, F3, F4)
+            window.addEventListener('keydown', function(e) {
+                if (e.key === 'F1') {
+                    e.preventDefault();
+                    mostrarInventario(inventarioGlobal, true);
+                } else if (e.key === 'F2') {
+                    e.preventDefault();
+                    limpiarBusqueda();
+                } else if (e.key === 'F3') {
+                    e.preventDefault();
+                    procesarVenta();
+                } else if (e.key === 'F4') {
+                    e.preventDefault();
+                    cancelarCarrito();
+                }
+            });
 
             cargarProductos();
         </script>
