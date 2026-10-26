@@ -392,4 +392,4 @@ def index():
                     carrito = [];
                     actualizarCarrito();
                     cargarProductos();
-         
+          
