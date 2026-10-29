@@ -350,4 +350,3 @@ def get_v():
     conn = sqlite3.connect('inventario.db')
     c = conn.cursor()
     c.execute("SELECT id, total_usd, total_bs, tasa_bcv, detalles, fecha FROM ventas ORDER BY id DESC")
-    r =
