@@ -5,7 +5,6 @@ import os
 
 app = Flask(__name__)
 
-# Nombre del archivo externo para guardar los productos iniciales y evitar saturar main.py
 JSON_INVENTARIO = 'inventario_inicial.json'
 
 def init_db():
@@ -14,7 +13,6 @@ def init_db():
     c.execute('CREATE TABLE IF NOT EXISTS productos (id INTEGER PRIMARY KEY AUTOINCREMENT, codigo TEXT UNIQUE NOT NULL, nombre TEXT NOT NULL, precio REAL NOT NULL, stock INTEGER NOT NULL)')
     c.execute('CREATE TABLE IF NOT EXISTS ventas (id INTEGER PRIMARY KEY AUTOINCREMENT, total_usd REAL NOT NULL, total_bs REAL NOT NULL, tasa_bcv REAL NOT NULL, detalles TEXT NOT NULL, fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP)')
     
-    # Carga automática desde el archivo JSON externo si existe
     if os.path.exists(JSON_INVENTARIO):
         try:
             with open(JSON_INVENTARIO, 'r', encoding='utf-8') as f:
@@ -42,7 +40,8 @@ def index():
 <style>
 body { 
     font-family: Arial, sans-serif; 
-    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=1920&auto=format&fit=crop');
+    background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('https://i.ibb.co/3yk7v6g/fondo-moto.jpg'); /* Imagen personalizada */
+    background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=1920&auto=format&fit=crop');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -52,22 +51,22 @@ body {
 .container { 
     max-width: 900px; 
     margin: auto; 
-    background: rgba(255, 255, 255, 0.92); 
-    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.94); 
+    backdrop-filter: blur(8px);
     padding: 15px; 
     border-radius: 8px; 
     position: relative; 
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4); 
 }
 input, button { width: 100%; padding: 8px; margin: 5px 0; box-sizing: border-box; border-radius: 4px; border: 1px solid #ccc; font-size: 14px; }
 button { background: #34495e; color: white; border: none; cursor: pointer; font-weight: bold; }
 button:hover { background: #2c3e50; }
 .btn-success { background: #27ae60 !important; }
 .btn-success:hover { background: #219653 !important; }
-.btn-danger { background: #c0392b; }
-.btn-warning { background: #e67e22; color: white; }
+.btn-danger { background: #7f8c8d; color: white; } /* Cambiado a gris sobrio */
+.btn-warning { background: #7f8c8d; color: white; } /* Cambiado a gris sobrio */
 .row { display: flex; flex-wrap: wrap; gap: 15px; }
-.col { flex: 1; min-width: 270px; background: rgba(250, 250, 250, 0.9); padding: 10px; border: 1px solid #ddd; border-radius: 6px; }
+.col { flex: 1; min-width: 270px; background: rgba(250, 250, 250, 0.95); padding: 10px; border: 1px solid #ddd; border-radius: 6px; }
 .item-list, .cart-list { max-height: 180px; overflow-y: auto; border: 1px solid #ddd; padding: 5px; background: #fff; }
 .item { background: #fff; padding: 6px; margin-bottom: 4px; border-left: 4px solid #34495e; display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
 .stock-low { border-left-color: #c0392b !important; background: #fdf2e9; }
@@ -76,7 +75,7 @@ button:hover { background: #2c3e50; }
 .bcv-box input { width: 75px; padding: 2px; text-align: center; font-weight: bold; margin-left: 5px; }
 .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); }
 .modal-content { background: white; margin: 5% auto; padding: 15px; width: 90%; max-width: 600px; border-radius: 8px; max-height: 80vh; overflow-y: auto; }
-.close-modal { float: right; background: #c0392b; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; width: auto; }
+.close-modal { float: right; background: #7f8c8d; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; width: auto; }
 .ticket-box { font-family: monospace; background: #fff8dc; padding: 10px; border: 1px dashed #333; margin-top: 10px; font-size: 13px; }
 .badge-low { background: #c0392b; color: white; font-size: 9px; padding: 2px 4px; border-radius: 3px; }
 </style>
@@ -107,7 +106,7 @@ button:hover { background: #2c3e50; }
 <h3 style="margin-top:10px;">Total: $<span id="tot-d">0.00</span><br><small style="color:#27ae60;">Bs. <span id="tot-b">0.00</span></small></h3>
 <button class="btn-success" onclick="cobrar()">🖨️ Cobrar / Confirmar Venta [Ctrl+3]</button>
 <button class="btn-danger" onclick="cancelar()" style="margin-top:4px;">❌ Cancelar [Ctrl+4]</button>
-<button style="margin-top:10px; background:#8e44ad;" onclick="verVentas()">📊 Reporte de Ventas</button>
+<button style="margin-top:10px; background:#34495e;" onclick="verVentas()">📊 Reporte de Ventas</button>
 </div>
 </div>
 </div>
@@ -126,6 +125,12 @@ button:hover { background: #2c3e50; }
 
 <script>
 let inv = [], cart = [];
+
+// Función para formatear números estilo venezolano: 10.000,00
+function formatoMoneda(num) {
+    return num.toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
 async function cargar() {
     let r = await fetch('/productos');
     inv = await r.json();
@@ -134,12 +139,13 @@ async function cargar() {
 function filtrar() {
     let q = document.getElementById('busq').value.toLowerCase().trim();
     let l = document.getElementById('lista');
+    let tasa = parseFloat(document.getElementById('tasa').value) || 1;
     if(!q) { l.style.display = 'none'; return; }
     l.style.display = 'block';
     let res = inv.filter(p => p[1].toLowerCase().includes(q) || p[2].toLowerCase().includes(q));
     l.innerHTML = res.length === 0 ? '<p>Sin resultados</p>' : res.map(p => `
         <div class="item ${p[4]<=3?'stock-low':''}">
-            <div><b>${p[1]}</b> - ${p[2]} ${p[4]<=3?'<span class="badge-low">BAJO</span>':''}<br><small>$${p[3]} | Stock: ${p[4]}</small></div>
+            <div><b>${p[1]}</b> - ${p[2]} ${p[4]<=3?'<span class="badge-low">BAJO</span>':''}<br><small>$${formatoMoneda(p[3])} (Bs. ${formatoMoneda(p[3]*tasa)}) | Stock: ${p[4]}</small></div>
             <button onclick="add(${p[0]},'${p[2]}',${p[3]},${p[4]})" style="width:auto;padding:4px 8px;">Add</button>
         </div>`).join('');
 }
@@ -157,11 +163,11 @@ function renderStk() {
         <div class="item ${p[4]<=3?'stock-low':''}">
             <div>
                 <b>${p[1]}</b> - ${p[2]} ${p[4]<=3?'<span class="badge-low">BAJO</span>':''}<br>
-                <small>Precio: $${p[3]} (Bs. ${(p[3]*tasa).toFixed(2)}) | Stock actual: <b>${p[4]}</b></small>
+                <small>Precio: <b>$${formatoMoneda(p[3])}</b> (<b>Bs. ${formatoMoneda(p[3]*tasa)}</b>) | Stock: <b>${p[4]}</b></small>
             </div>
             <div style="display:flex; gap:4px;">
                 <button class="btn-warning" onclick="reponer(${p[0]},'${p[2]}')" style="width:auto;padding:4px 8px;" title="Sumar stock">➕</button>
-                <button class="btn-danger" onclick="ajustarAdmin(${p[0]},'${p[2]}',${p[4]})" style="width:auto;padding:4px 8px;" title="Ajuste Admin (Merma/Corrección)">⚙️ Admin</button>
+                <button class="btn-danger" onclick="ajustarAdmin(${p[0]},'${p[2]}',${p[4]})" style="width:auto;padding:4px 8px;" title="Ajuste Admin">⚙️ Admin</button>
             </div>
         </div>`).join('');
 }
@@ -173,7 +179,7 @@ async function reponer(id, nom) {
 }
 async function ajustarAdmin(id, nom, stockActual) {
     let pass = prompt("🔑 Ingrese contraseña de Administrador:");
-    if(pass !== "admin123") { // Puedes cambiar la contraseña aquí fácilmente
+    if(pass !== "admin123") {
         if(pass !== null) alert("Contraseña incorrecta.");
         return;
     }
@@ -213,17 +219,22 @@ function add(id, nombre, precio, stock) {
 function renderCart() {
     let c = document.getElementById('carrito');
     let tasa = parseFloat(document.getElementById('tasa').value) || 1;
-    if(cart.length === 0) { c.innerHTML = '<p>Vacío</p>'; document.getElementById('tot-d').innerText = '0.00'; document.getElementById('tot-b').innerText = '0.00'; return; }
+    if(cart.length === 0) { c.innerHTML = '<p>Vacío</p>'; document.getElementById('tot-d').innerText = '0,00'; document.getElementById('tot-b').innerText = '0,00'; return; }
     let totD = 0;
     c.innerHTML = cart.map(x => {
         let sub = x.precio * x.cant;
         totD += sub;
-        return `<div class="cart-item"><span><b>${x.nombre}</b> x${x.cant}</span><span>$${sub.toFixed(2)}<br><small>Bs. ${(sub*tasa).toFixed(2)}</small></span></div>`;
+        return `<div class="cart-item"><span><b>${x.nombre}</b> x${x.cant}</span><span>$${formatoMoneda(sub)}<br><small>Bs. ${formatoMoneda(sub*tasa)}</small></span></div>`;
     }).join('');
-    document.getElementById('tot-d').innerText = totD.toFixed(2);
-    document.getElementById('tot-b').innerText = (totD * tasa).toFixed(2);
+    document.getElementById('tot-d').innerText = formatoMoneda(totD);
+    document.getElementById('tot-b').innerText = formatoMoneda(totD * tasa);
 }
-function calc() { renderCart(); if(document.getElementById('modal-stk').style.display === 'block') renderStk(); }
+function calc() { 
+    renderCart(); 
+    if(document.getElementById('modal-stk').style.display === 'block') renderStk();
+    let q = document.getElementById('busq').value;
+    if(q) filtrar();
+}
 function cancelar() { if(cart.length && confirm('¿Cancelar compra?')) { cart = []; renderCart(); } }
 async function cobrar() {
     if(cart.length === 0) { alert('Carrito vacío'); return; }
@@ -233,8 +244,8 @@ async function cobrar() {
     let d = await r.json();
     if(d.ok) {
         let tic = `<center><b>COMPROBANTE DE VENTA</b><br><small>${new Date().toLocaleString()}</small></center><hr>` +
-                  cart.map(x => `<div>${x.cant}x ${x.nombre} <span style="float:right;">$${(x.precio*x.cant).toFixed(2)}</span></div>`).join('') +
-                  `<hr><b>Tasa:</b> Bs. ${tasa.toFixed(2)}<br><b>Total ($):</b> $${totD.toFixed(2)}<br><b>Total (Bs):</b> Bs. ${(totD*tasa).toFixed(2)}<hr><center><small>¡Gracias!</small></center>`;
+                  cart.map(x => `<div>${x.cant}x ${x.nombre} <span style="float:right;">$${formatoMoneda(x.precio*x.cant)}</span></div>`).join('') +
+                  `<hr><b>Tasa:</b> Bs. ${formatoMoneda(tasa)}<br><b>Total ($):</b> $${formatoMoneda(totD)}<br><b>Total (Bs):</b> Bs. ${formatoMoneda(totD*tasa)}<hr><center><small>¡Gracias!</small></center>`;
         document.getElementById('cont-tic').innerHTML = tic;
         document.getElementById('modal-tic').style.display = 'block';
         cart = []; renderCart(); cargar();
@@ -249,9 +260,9 @@ async function verVentas() {
     let totUSD = 0, totBS = 0;
     let html = v.map(x => {
         totUSD += x[1]; totBS += x[2];
-        return `<div style="background:#f4f6f7;padding:8px;margin-bottom:6px;border-left:4px solid #8e44ad;font-size:13px;"><b>Fecha:</b> ${x[5]}<br><b>Detalle:</b> ${x[4]}<br><b>Total:</b> $${x[1].toFixed(2)} (Bs. ${x[2].toFixed(2)})</div>`;
+        return `<div style="background:#f4f6f7;padding:8px;margin-bottom:6px;border-left:4px solid #34495e;font-size:13px;"><b>Fecha:</b> ${x[5]}<br><b>Detalle:</b> ${x[4]}<br><b>Total:</b> $${formatoMoneda(x[1])} (Bs. ${formatoMoneda(x[2])})</div>`;
     }).join('');
-    c.innerHTML = `<div style="background:#e8daef;padding:8px;margin-bottom:10px;border-radius:4px;"><b>Total USD:</b> $${totUSD.toFixed(2)}<br><b>Total VES:</b> Bs. ${totBS.toFixed(2)}</div>` + html;
+    c.innerHTML = `<div style="background:#e8daef;padding:8px;margin-bottom:10px;border-radius:4px;"><b>Total USD:</b> $${formatoMoneda(totUSD)}<br><b>Total VES:</b> Bs. ${formatoMoneda(totBS)}</div>` + html;
 }
 window.addEventListener('keydown', e => {
     if(e.key==='F1'){ e.preventDefault(); verStock(); }
@@ -298,10 +309,9 @@ def ajuste_admin():
     d = request.json
     conn = sqlite3.connect('inventario.db')
     c = conn.cursor()
-    # Actualiza el stock directamente al valor indicado por el admin (sin tocar la tabla de ventas)
     c.execute("UPDATE productos SET stock = ? WHERE id = ?", (d['stock'], d['id']))
     conn.commit(); conn.close()
-    return jsonify({'msj': '¡Stock ajustado correctamente por Administrador (Sin afectar caja)!'})
+    return jsonify({'msj': '¡Stock ajustado correctamente por Administrador!'})
 
 @app.route('/venta', methods=['POST'])
 def venta():
