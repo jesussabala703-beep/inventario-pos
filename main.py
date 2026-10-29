@@ -1,7 +1,12 @@
 from flask import Flask, request, jsonify
 import sqlite3
+import json
+import os
 
 app = Flask(__name__)
+
+# Nombre del archivo externo para guardar los productos iniciales y evitar saturar main.py
+JSON_INVENTARIO = 'inventario_inicial.json'
 
 def init_db():
     conn = sqlite3.connect('inventario.db')
@@ -9,24 +14,20 @@ def init_db():
     c.execute('CREATE TABLE IF NOT EXISTS productos (id INTEGER PRIMARY KEY AUTOINCREMENT, codigo TEXT UNIQUE NOT NULL, nombre TEXT NOT NULL, precio REAL NOT NULL, stock INTEGER NOT NULL)')
     c.execute('CREATE TABLE IF NOT EXISTS ventas (id INTEGER PRIMARY KEY AUTOINCREMENT, total_usd REAL NOT NULL, total_bs REAL NOT NULL, tasa_bcv REAL NOT NULL, detalles TEXT NOT NULL, fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP)')
     
-    # Inserción compacta de la primera tanda de repuestos para evitar cortes
-    items = [
-        ("REP-001", "PARRILLA SBR MF", 14.00, 10),
-        ("REP-002", "ACEITE SHELL MINERAL 20W-50 (LITRO)", 18.00, 10),
-        ("REP-003", "AMORTIGUADOR GY6 SCOOTER MF", 23.00, 10),
-        ("REP-004", "AMORTIGUADOR TRASERO BRF MP", 24.00, 10),
-        ("REP-005", "AMORTIGUADOR TRASERO EXPRESS MP", 24.00, 10),
-        ("REP-006", "ARANDELA EMPACADURA TUBO ESCAPE CG150", 0.20, 10),
-        ("REP-007", "ARANDELA EMPACADURA TUBO ESCAPE GY6", 0.20, 10),
-        ("REP-008", "ARRANQUE COMPLETO CG150 MP", 19.00, 10),
-        ("REP-009", "ARRANQUE COMPLETO GRIS CG200 MP", 19.00, 10),
-        ("REP-010", "ASIENTO GN 125 MF", 23.00, 10)
-    ]
-    for cod, nom, pre, sto in items:
+    # Carga automática desde el archivo JSON externo si existe
+    if os.path.exists(JSON_INVENTARIO):
         try:
-            c.execute("INSERT INTO productos (codigo, nombre, precio, stock) VALUES (?, ?, ?, ?)", (cod, nom, pre, sto))
-        except sqlite3.IntegrityError:
-            pass
+            with open(JSON_INVENTARIO, 'r', encoding='utf-8') as f:
+                items = json.load(f)
+                for item in items:
+                    try:
+                        c.execute("INSERT INTO productos (codigo, nombre, precio, stock) VALUES (?, ?, ?, ?)", 
+                                  (item['codigo'], item['nombre'], item['precio'], item['stock']))
+                    except sqlite3.IntegrityError:
+                        pass
+        except Exception as e:
+            print("Error leyendo el archivo JSON:", e)
+
     conn.commit()
     conn.close()
 
@@ -39,22 +40,41 @@ def index():
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sistema POS & Inventario</title>
 <style>
-body { font-family: Arial, sans-serif; background: #f0f2f5; margin: 0; padding: 10px; }
-.container { max-width: 900px; margin: auto; background: white; padding: 15px; border-radius: 8px; position: relative; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-input, button { width: 100%; padding: 8px; margin: 5px 0; box-sizing: border-box; border-radius: 4px; border: 1px solid #ccc; }
-button { background: #2980b9; color: white; border: none; cursor: pointer; font-weight: bold; }
-.btn-success { background: #27ae60; }
+body { 
+    font-family: Arial, sans-serif; 
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=1920&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    margin: 0; 
+    padding: 10px; 
+}
+.container { 
+    max-width: 900px; 
+    margin: auto; 
+    background: rgba(255, 255, 255, 0.92); 
+    backdrop-filter: blur(10px);
+    padding: 15px; 
+    border-radius: 8px; 
+    position: relative; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
+}
+input, button { width: 100%; padding: 8px; margin: 5px 0; box-sizing: border-box; border-radius: 4px; border: 1px solid #ccc; font-size: 14px; }
+button { background: #34495e; color: white; border: none; cursor: pointer; font-weight: bold; }
+button:hover { background: #2c3e50; }
+.btn-success { background: #27ae60 !important; }
+.btn-success:hover { background: #219653 !important; }
 .btn-danger { background: #c0392b; }
-.btn-warning { background: #f39c12; color: white; }
+.btn-warning { background: #e67e22; color: white; }
 .row { display: flex; flex-wrap: wrap; gap: 15px; }
-.col { flex: 1; min-width: 270px; background: #fafafa; padding: 10px; border: 1px solid #ddd; border-radius: 6px; }
+.col { flex: 1; min-width: 270px; background: rgba(250, 250, 250, 0.9); padding: 10px; border: 1px solid #ddd; border-radius: 6px; }
 .item-list, .cart-list { max-height: 180px; overflow-y: auto; border: 1px solid #ddd; padding: 5px; background: #fff; }
-.item { background: #fff; padding: 6px; margin-bottom: 4px; border-left: 4px solid #2980b9; display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
+.item { background: #fff; padding: 6px; margin-bottom: 4px; border-left: 4px solid #34495e; display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
 .stock-low { border-left-color: #c0392b !important; background: #fdf2e9; }
-.cart-item { background: #fff; padding: 5px; margin-bottom: 3px; border-left: 4px solid #27ae60; font-size: 13px; display: flex; justify-content: space-between; }
-.bcv-box { position: absolute; top: 15px; right: 15px; background: #e8f8f5; border: 1px solid #a3e4d7; padding: 5px 10px; border-radius: 6px; text-align: right; font-size: 12px; color: #16a085; }
+.cart-item { background: #fff; padding: 5px; margin-bottom: 3px; border-left: 4px solid #7f8c8d; font-size: 13px; display: flex; justify-content: space-between; }
+.bcv-box { position: absolute; top: 15px; right: 15px; background: rgba(232, 248, 245, 0.95); border: 1px solid #a3e4d7; padding: 5px 10px; border-radius: 6px; text-align: right; font-size: 12px; color: #16a085; }
 .bcv-box input { width: 75px; padding: 2px; text-align: center; font-weight: bold; margin-left: 5px; }
-.modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); }
+.modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); }
 .modal-content { background: white; margin: 5% auto; padding: 15px; width: 90%; max-width: 600px; border-radius: 8px; max-height: 80vh; overflow-y: auto; }
 .close-modal { float: right; background: #c0392b; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; width: auto; }
 .ticket-box { font-family: monospace; background: #fff8dc; padding: 10px; border: 1px dashed #333; margin-top: 10px; font-size: 13px; }
@@ -79,13 +99,13 @@ button { background: #2980b9; color: white; border: none; cursor: pointer; font-
 <input type="text" id="reg-nom" placeholder="Nombre">
 <input type="number" id="reg-pre" placeholder="Precio ($)" step="0.01">
 <input type="number" id="reg-can" placeholder="Stock inicial">
-<button class="btn-success" onclick="guardar()">Guardar</button>
+<button style="background:#34495e;" onclick="guardar()">Guardar</button>
 </div>
 <div class="col">
 <h3>🛍️ Carrito</h3>
 <div id="carrito" class="cart-list"><p>Vacío</p></div>
 <h3 style="margin-top:10px;">Total: $<span id="tot-d">0.00</span><br><small style="color:#27ae60;">Bs. <span id="tot-b">0.00</span></small></h3>
-<button class="btn-success" onclick="cobrar()">🖨️ Cobrar [Ctrl+3]</button>
+<button class="btn-success" onclick="cobrar()">🖨️ Cobrar / Confirmar Venta [Ctrl+3]</button>
 <button class="btn-danger" onclick="cancelar()" style="margin-top:4px;">❌ Cancelar [Ctrl+4]</button>
 <button style="margin-top:10px; background:#8e44ad;" onclick="verVentas()">📊 Reporte de Ventas</button>
 </div>
@@ -95,7 +115,7 @@ button { background: #2980b9; color: white; border: none; cursor: pointer; font-
 <div id="modal-stk" class="modal">
     <div class="modal-content">
         <button class="close-modal" onclick="cerrarModal('modal-stk')">Cerrar</button>
-        <h3>📦 Inventario y Reposición</h3>
+        <h3>📦 Inventario, Reposición y Ajuste Admin</h3>
         <input type="text" id="busq-modal" placeholder="🔍 Buscar en el stock completo..." onkeyup="renderStk()" style="margin-bottom:10px;">
         <div id="cont-stk"></div>
     </div>
@@ -130,18 +150,43 @@ function verStock() {
 }
 function renderStk() {
     let q = document.getElementById('busq-modal') ? document.getElementById('busq-modal').value.toLowerCase().trim() : '';
+    let tasa = parseFloat(document.getElementById('tasa').value) || 1;
     let filtrados = inv.filter(p => p[1].toLowerCase().includes(q) || p[2].toLowerCase().includes(q));
     
     document.getElementById('cont-stk').innerHTML = filtrados.length === 0 ? '<p>No se encontraron productos</p>' : filtrados.map(p => `
         <div class="item ${p[4]<=3?'stock-low':''}">
-            <div><b>${p[1]}</b> - ${p[2]} ${p[4]<=3?'<span class="badge-low">BAJO</span>':''}<br><small>$${p[3]} | Stock: ${p[4]}</small></div>
-            <button class="btn-warning" onclick="reponer(${p[0]},'${p[2]}')" style="width:auto;padding:4px 8px;">➕ Stock</button>
+            <div>
+                <b>${p[1]}</b> - ${p[2]} ${p[4]<=3?'<span class="badge-low">BAJO</span>':''}<br>
+                <small>Precio: $${p[3]} (Bs. ${(p[3]*tasa).toFixed(2)}) | Stock actual: <b>${p[4]}</b></small>
+            </div>
+            <div style="display:flex; gap:4px;">
+                <button class="btn-warning" onclick="reponer(${p[0]},'${p[2]}')" style="width:auto;padding:4px 8px;" title="Sumar stock">➕</button>
+                <button class="btn-danger" onclick="ajustarAdmin(${p[0]},'${p[2]}',${p[4]})" style="width:auto;padding:4px 8px;" title="Ajuste Admin (Merma/Corrección)">⚙️ Admin</button>
+            </div>
         </div>`).join('');
 }
 async function reponer(id, nom) {
-    let cant = prompt(`Unidades a agregar para ${nom}:`);
+    let cant = prompt(`Unidades a sumar para "${nom}":`);
     if(!cant || isNaN(cant) || cant<=0) return;
     await fetch('/reponer', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({id, cantidad:parseInt(cant)})});
+    cargar();
+}
+async function ajustarAdmin(id, nom, stockActual) {
+    let pass = prompt("🔑 Ingrese contraseña de Administrador:");
+    if(pass !== "admin123") { // Puedes cambiar la contraseña aquí fácilmente
+        if(pass !== null) alert("Contraseña incorrecta.");
+        return;
+    }
+    let nuevoStock = prompt(`[MODO ADMIN] Ajuste manual para "${nom}". Stock actual: ${stockActual}\\nIngrese el stock real correcto:`);
+    if(nuevoStock === null || isNaN(nuevoStock)) return;
+    
+    let res = await fetch('/ajuste_admin', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({id, stock: parseInt(nuevoStock)})
+    });
+    let d = await res.json();
+    alert(d.msj);
     cargar();
 }
 function cerrarModal(id) { document.getElementById(id).style.display = 'none'; }
@@ -178,7 +223,7 @@ function renderCart() {
     document.getElementById('tot-d').innerText = totD.toFixed(2);
     document.getElementById('tot-b').innerText = (totD * tasa).toFixed(2);
 }
-function calc() { renderCart(); }
+function calc() { renderCart(); if(document.getElementById('modal-stk').style.display === 'block') renderStk(); }
 function cancelar() { if(cart.length && confirm('¿Cancelar compra?')) { cart = []; renderCart(); } }
 async function cobrar() {
     if(cart.length === 0) { alert('Carrito vacío'); return; }
@@ -247,6 +292,16 @@ def rep():
     c.execute("UPDATE productos SET stock = stock + ? WHERE id = ?", (d['cantidad'], d['id']))
     conn.commit(); conn.close()
     return jsonify({'ok': True})
+
+@app.route('/ajuste_admin', methods=['POST'])
+def ajuste_admin():
+    d = request.json
+    conn = sqlite3.connect('inventario.db')
+    c = conn.cursor()
+    # Actualiza el stock directamente al valor indicado por el admin (sin tocar la tabla de ventas)
+    c.execute("UPDATE productos SET stock = ? WHERE id = ?", (d['stock'], d['id']))
+    conn.commit(); conn.close()
+    return jsonify({'msj': '¡Stock ajustado correctamente por Administrador (Sin afectar caja)!'})
 
 @app.route('/venta', methods=['POST'])
 def venta():
