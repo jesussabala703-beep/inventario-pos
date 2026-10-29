@@ -9,7 +9,8 @@ def init_db():
     c.execute('CREATE TABLE IF NOT EXISTS productos (id INTEGER PRIMARY KEY AUTOINCREMENT, codigo TEXT UNIQUE NOT NULL, nombre TEXT NOT NULL, precio REAL NOT NULL, stock INTEGER NOT NULL)')
     c.execute('CREATE TABLE IF NOT EXISTS ventas (id INTEGER PRIMARY KEY AUTOINCREMENT, total_usd REAL NOT NULL, total_bs REAL NOT NULL, tasa_bcv REAL NOT NULL, detalles TEXT NOT NULL, fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP)')
     
-    repuestos_iniciales = [
+    # Inserción compacta de la primera tanda de repuestos para evitar cortes
+    items = [
         ("REP-001", "PARRILLA SBR MF", 14.00, 10),
         ("REP-002", "ACEITE SHELL MINERAL 20W-50 (LITRO)", 18.00, 10),
         ("REP-003", "AMORTIGUADOR GY6 SCOOTER MF", 23.00, 10),
@@ -19,96 +20,13 @@ def init_db():
         ("REP-007", "ARANDELA EMPACADURA TUBO ESCAPE GY6", 0.20, 10),
         ("REP-008", "ARRANQUE COMPLETO CG150 MP", 19.00, 10),
         ("REP-009", "ARRANQUE COMPLETO GRIS CG200 MP", 19.00, 10),
-        ("REP-010", "ASIENTO GN 125 MF", 23.00, 10),
-        ("REP-011", "ASIENTO HORSE MF", 18.00, 10),
-        ("REP-012", "BASTON EXPRESS DE RAYO PAR MP", 43.00, 10),
-        ("REP-013", "BASTON HORSE MF", 52.00, 10),
-        ("REP-014", "BASTON SBR PAR MP", 54.00, 10),
-        ("REP-015", "BATERIA DE SCOOTER YTX7A MP", 23.00, 10),
-        ("REP-016", "BATERIA SECA 12N6.5 MP", 20.00, 10),
-        ("REP-017", "BOMBA DE AIRE DE BICICLETA GRANDE MP", 3.50, 10),
-        ("REP-018", "BOMBILLO CRUCE UNIV MP", 0.25, 10),
-        ("REP-019", "BOMBILLO LED BLANCO DOS CONTACTOS MP", 4.00, 10),
-        ("REP-020", "BOMBILLO LED H4 BLANCO MP", 4.00, 10),
-        ("REP-021", "BOMBILLO STOP 12V MF (UNIDAD)", 2.60, 10),
-        ("REP-022", "BOMBILLO ZOOM PRO MAX CROW LED 50.000LM", 17.00, 10),
-        ("REP-023", "BUJE PORTA CORONA CG150 MP", 1.00, 10),
-        ("REP-024", "CALIPER DELANTERO CG150 MP", 12.00, 10),
-        ("REP-025", "CALIPER DELANTERO CGB MP", 12.00, 10),
-        ("REP-026", "CALIPER DELANTERO HORSE MP", 12.00, 10),
-        ("REP-027", "CASCO JAGUAR SOLID SEMI-INTEGRAL NEGRO S", 49.00, 10),
-        ("REP-028", "CASCO JAGUAR SOLID SEMI-INTEGRAL NEGRO M", 49.00, 10),
-        ("REP-029", "CASCO JAGUAR SOLID GRIS MATE L", 46.00, 10),
-        ("REP-030", "CASCO SANDOVAL OVAL", 7.00, 10),
-        ("REP-031", "CAUCHO 2.50/18 MP533 MOTOR POWER", 16.00, 10),
-        ("REP-032", "CAUCHO 2.75/18 MP219 MOTOR POWER", 18.50, 10),
-        ("REP-033", "CAUCHO 90/90/18 MP 592", 26.00, 10),
-        ("REP-034", "CDI HORSE PROGRESIVO MP", 37.00, 10),
-        ("REP-035", "CONECTOR CDI CG150 MP", 0.50, 10),
-        ("REP-036", "CONTRAPESO VOLANTE HORSE CROMADO MF", 2.70, 10),
-        ("REP-037", "CONTRAPESO CROMADO CG150 MP", 3.80, 10),
-        ("REP-038", "CORONA GN/HORSE/CG150 37T DORAO PUNTA NEGRA", 4.00, 10),
-        ("REP-039", "CORONA GN/HORSE/CG150 38T DORAO PUNTA NEGRA", 3.80, 10),
-        ("REP-040", "CORONA GN/HORSE/CG150 39T DORAO PUNTA NEGRA", 4.00, 10),
-        ("REP-041", "CORONA MD/EXPREES 39T OVALADA DORAD PN MP", 3.60, 10),
-        ("REP-042", "CORREA GY6 835-20-30 MP", 4.00, 10),
-        ("REP-043", "CROCHERA COMPLETA SCOOTER MF", 28.50, 10),
-        ("REP-044", "CUCHARITA CG150 MP", 3.70, 10),
-        ("REP-045", "CUENTA KILOMETRAJE HORSE MP", 5.00, 10),
-        ("REP-046", "CUENTA KILOMETRAJE SBR MP", 3.00, 10),
-        ("REP-047", "DISCO DE CROCHE 6 PIEZAS CG150 LUBRICADO", 2.75, 10),
-        ("REP-048", "DISCO DE CROCHE 6 PIEZAS CG150 MP", 5.20, 10),
-        ("REP-049", "LATA MP", 3.25, 10),
-        ("REP-050", "EJE DELANTERO HORSE MP", 1.10, 10),
-        ("REP-051", "EJE PEDAL CAMBIO CG150 CON CACHOS MP", 2.40, 10),
-        ("REP-052", "EJE PEDAL DE ARRANQUE CG150 MP", 1.50, 10),
-        ("REP-053", "EJE TRASERO SBR MP", 0.50, 10),
-        ("REP-054", "EMBLEMA BERA", 2.50, 10),
-        ("REP-055", "EMPACADURA TAPA CROCHERA CG150 MP", 0.40, 10),
-        ("REP-056", "EMPACADURA MAGNETO CG150 MF", 0.80, 10),
-        ("REP-057", "ENGANCHE ARRANQUE CG150 MP", 7.00, 10),
-        ("REP-058", "FLASHER UNIVERSAL MP", 1.30, 10),
-        ("REP-059", "GUARDAFANGO DELANTERO CGB AZUL MP", 8.50, 10),
-        ("REP-060", "GUARDAFANGO DELANTERO CGB ROJO MP", 5.80, 10),
-        ("REP-061", "GUARDAFANGO DELANTERO OWEN NEGRO MP", 1.50, 10),
-        ("REP-062", "GUAYA DE KILOMETRAJE C/FORRO CGB MP", 0.70, 10),
-        ("REP-063", "HORQUILLA/TUERA CGB NEGRO MP", 5.60, 10),
-        ("REP-064", "INSTALACION/RAMAL SBR MF", 6.00, 10),
-        ("REP-065", "KIT DE REPARACION CALIPER CGB MP", 5.20, 10),
-        ("REP-066", "KIT DE RESORTE CG150 MP", 10.00, 10),
-        ("REP-067", "KIT GOMA PARA TANQUE SBR MF", 6.00, 10),
-        ("REP-068", "KIT PISTON STD CG200 MP", 15.00, 10),
-        ("REP-069", "KIT PISTON STD CG150 MP", 1.50, 10),
-        ("REP-070", "KIT PISTON STD CGB MP", 0.80, 10),
-        ("REP-071", "KIT PISTON STD GY6 MP", 0.70, 10),
-        ("REP-072", "KIT PISTON STD HORSE ALTA CALIDAD CAJA LATA MP", 0.60, 10),
-        ("REP-073", "KIT PISTON STD HORSE MP", 1.00, 10),
-        ("REP-074", "KIT RELACION MD 38T/1ST CADENA DORADO 120L", 2.00, 10),
-        ("REP-075", "KIT REPARACION CLUTCHERA CG150 MP", 1.90, 10),
-        ("REP-076", "KIT TORNILLO PORTA CORONA CG150 MP", 2.20, 10),
-        ("REP-077", "LEVA BANDA CG150 MP", 7.70, 10),
-        ("REP-078", "LLAVE GASOLINA CG150 MP", 3.00, 10),
-        ("REP-079", "LUZ CRUCE HORSE MP", 1.20, 10),
-        ("REP-080", "LUZ CRUCE SBR MF", 6.00, 10),
-        ("REP-081", "MANDO SBR MF", 2.30, 10),
-        ("REP-082", "MANGUERA DE FRENO SBR MF", 2.50, 10),
-        ("REP-083", "MINI KIT DE EMPACADURAS CG150 MP", 2.30, 10),
-        ("REP-084", "OREJERA/BASE FARO SBR MP", 3.10, 10),
-        ("REP-085", "PATA PARAR C/RESORTE CG150 MP", 3.90, 10),
-        ("REP-086", "PATA PARAR C/RESORTE GN125 MP", 1.30, 10),
-        ("REP-087", "PATA PARAR C/RESORTE HORSE MP", 1.20, 10),
-        ("REP-088", "PECHERA PVC MORADO", 15.00, 10),
-        ("REP-089", "PIÑON 15T HORSE/CG150 MP", 12.50, 10),
-        ("REP-090", "TACOMETRO BRF HONGJU", 32.00, 10)
+        ("REP-010", "ASIENTO GN 125 MF", 23.00, 10)
     ]
-
-    for codigo, nombre, precio, stock in repuestos_iniciales:
+    for cod, nom, pre, sto in items:
         try:
-            c.execute("INSERT INTO productos (codigo, nombre, precio, stock) VALUES (?, ?, ?, ?)", 
-                      (codigo, nombre, precio, stock))
+            c.execute("INSERT INTO productos (codigo, nombre, precio, stock) VALUES (?, ?, ?, ?)", (cod, nom, pre, sto))
         except sqlite3.IntegrityError:
             pass
-
     conn.commit()
     conn.close()
 
@@ -350,3 +268,10 @@ def get_v():
     conn = sqlite3.connect('inventario.db')
     c = conn.cursor()
     c.execute("SELECT id, total_usd, total_bs, tasa_bcv, detalles, fecha FROM ventas ORDER BY id DESC")
+    r = c.fetchall(); conn.close()
+    return jsonify(r)
+
+init_db()
+
+if __name__ == '__main__':
+    app.run(debug=True, port=5000)
