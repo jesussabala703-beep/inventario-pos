@@ -12,7 +12,7 @@ def init_db():
     c = conn.cursor()
     c.execute('CREATE TABLE IF NOT EXISTS productos (id INTEGER PRIMARY KEY AUTOINCREMENT, codigo TEXT UNIQUE NOT NULL, nombre TEXT NOT NULL, precio REAL NOT NULL, stock INTEGER NOT NULL)')
     c.execute('CREATE TABLE IF NOT EXISTS ventas (id INTEGER PRIMARY KEY AUTOINCREMENT, total_usd REAL NOT NULL, total_bs REAL NOT NULL, tasa_bcv REAL NOT NULL, detalles TEXT NOT NULL, fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP)')
-    
+
     if os.path.exists(JSON_INVENTARIO):
         try:
             with open(JSON_INVENTARIO, 'r', encoding='utf-8') as f:
@@ -40,7 +40,6 @@ def index():
 <style>
 body { 
     font-family: Arial, sans-serif; 
-    background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('https://i.ibb.co/3yk7v6g/fondo-moto.jpg'); /* Imagen personalizada */
     background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=1920&auto=format&fit=crop');
     background-size: cover;
     background-position: center;
@@ -63,8 +62,8 @@ button { background: #34495e; color: white; border: none; cursor: pointer; font-
 button:hover { background: #2c3e50; }
 .btn-success { background: #27ae60 !important; }
 .btn-success:hover { background: #219653 !important; }
-.btn-danger { background: #7f8c8d; color: white; } /* Cambiado a gris sobrio */
-.btn-warning { background: #7f8c8d; color: white; } /* Cambiado a gris sobrio */
+.btn-danger { background: #7f8c8d; color: white; }
+.btn-warning { background: #7f8c8d; color: white; }
 .row { display: flex; flex-wrap: wrap; gap: 15px; }
 .col { flex: 1; min-width: 270px; background: rgba(250, 250, 250, 0.95); padding: 10px; border: 1px solid #ddd; border-radius: 6px; }
 .item-list, .cart-list { max-height: 180px; overflow-y: auto; border: 1px solid #ddd; padding: 5px; background: #fff; }
@@ -111,11 +110,13 @@ button:hover { background: #2c3e50; }
 </div>
 </div>
 
+<!-- MODAL INVENTARIO / ADMIN PROTEGIDO -->
 <div id="modal-stk" class="modal">
     <div class="modal-content">
         <button class="close-modal" onclick="cerrarModal('modal-stk')">Cerrar</button>
-        <h3>📦 Inventario, Reposición y Ajuste Admin</h3>
-        <input type="text" id="busq-modal" placeholder="🔍 Buscar en el stock completo..." onkeyup="renderStk()" style="margin-bottom:10px;">
+        <h3>📦 Inventario y Panel de Administración</h3>
+        <p style="font-size:12px; color:#555; margin-top:0;">El stock completo se muestra aquí. Para realizar cambios o reposiciones, haga clic en el botón <b>⚙️ Admin</b> (requiere contraseña).</p>
+        <input type="text" id="busq-modal" placeholder="🔍 Buscar producto en el inventario..." onkeyup="renderStk()" style="margin-bottom:10px;">
         <div id="cont-stk"></div>
     </div>
 </div>
@@ -126,7 +127,6 @@ button:hover { background: #2c3e50; }
 <script>
 let inv = [], cart = [];
 
-// Función para formatear números estilo venezolano: 10.000,00
 function formatoMoneda(num) {
     return num.toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
@@ -136,6 +136,7 @@ async function cargar() {
     inv = await r.json();
     if(document.getElementById('modal-stk').style.display === 'block') renderStk();
 }
+
 function filtrar() {
     let q = document.getElementById('busq').value.toLowerCase().trim();
     let l = document.getElementById('lista');
@@ -149,11 +150,13 @@ function filtrar() {
             <button onclick="add(${p[0]},'${p[2]}',${p[3]},${p[4]})" style="width:auto;padding:4px 8px;">Add</button>
         </div>`).join('');
 }
+
 function verStock() { 
     document.getElementById('modal-stk').style.display = 'block'; 
     document.getElementById('busq-modal').value = '';
     renderStk(); 
 }
+
 function renderStk() {
     let q = document.getElementById('busq-modal') ? document.getElementById('busq-modal').value.toLowerCase().trim() : '';
     let tasa = parseFloat(document.getElementById('tasa').value) || 1;
@@ -165,38 +168,58 @@ function renderStk() {
                 <b>${p[1]}</b> - ${p[2]} ${p[4]<=3?'<span class="badge-low">BAJO</span>':''}<br>
                 <small>Precio: <b>$${formatoMoneda(p[3])}</b> (<b>Bs. ${formatoMoneda(p[3]*tasa)}</b>) | Stock: <b>${p[4]}</b></small>
             </div>
-            <div style="display:flex; gap:4px;">
-                <button class="btn-warning" onclick="reponer(${p[0]},'${p[2]}')" style="width:auto;padding:4px 8px;" title="Sumar stock">➕</button>
-                <button class="btn-danger" onclick="ajustarAdmin(${p[0]},'${p[2]}',${p[4]})" style="width:auto;padding:4px 8px;" title="Ajuste Admin">⚙️ Admin</button>
+            <div>
+                <button class="btn-danger" onclick="panelAdmin(${p[0]}, '${p[1]}', '${p[2].replace(/'/g, "\\\\'")}', ${p[3]}, ${p[4]})" style="width:auto;padding:6px 10px;" title="Panel de Administración">⚙️ Admin</button>
             </div>
         </div>`).join('');
 }
-async function reponer(id, nom) {
-    let cant = prompt(`Unidades a sumar para "${nom}":`);
-    if(!cant || isNaN(cant) || cant<=0) return;
-    await fetch('/reponer', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({id, cantidad:parseInt(cant)})});
-    cargar();
-}
-async function ajustarAdmin(id, nom, stockActual) {
+
+// Panel de administración centralizado y protegido
+async function panelAdmin(id, codigo, nombreActual, precioActual, stockActual) {
     let pass = prompt("🔑 Ingrese contraseña de Administrador:");
     if(pass !== "admin123") {
         if(pass !== null) alert("Contraseña incorrecta.");
         return;
     }
-    let nuevoStock = prompt(`[MODO ADMIN] Ajuste manual para "${nom}". Stock actual: ${stockActual}\\nIngrese el stock real correcto:`);
-    if(nuevoStock === null || isNaN(nuevoStock)) return;
     
-    let res = await fetch('/ajuste_admin', {
+    let opcion = prompt(`[MODO ADMIN] Producto: "${nombreActual}"\n¿Qué desea hacer?\n1. Sumar stock (Reposición rápida)\n2. Ajustar stock manual (Inventario real)\n3. Editar nombre y/o precio USD\n\n(Ingrese 1, 2 o 3):`);
+    
+    if(opcion === "1") {
+        let cant = prompt(`Unidades a sumar para "${nombreActual}" (Stock actual: ${stockActual}):`);
+        if(!cant || isNaN(cant) || parseInt(cant) <= 0) return;
+        let nuevoStock = stockActual + parseInt(cant);
+        await enviarAdmin(id, nuevoStock, precioActual, nombreActual);
+    } 
+    else if(opcion === "2") {
+        let nuevoStockStr = prompt(`Stock actual: ${stockActual}\nIngrese el stock real correcto:`, stockActual);
+        if(nuevoStockStr === null || isNaN(nuevoStockStr)) return;
+        await enviarAdmin(id, parseInt(nuevoStockStr), precioActual, nombreActual);
+    }
+    else if(opcion === "3") {
+        let nuevoNombre = prompt(`Editar nombre del producto:`, nombreActual);
+        if(nuevoNombre === null) return;
+        
+        let nuevoPrecioStr = prompt(`Precio USD actual: $${precioActual}\nIngrese el nuevo precio USD:`, precioActual);
+        if(nuevoPrecioStr === null || isNaN(nuevoPrecioStr)) return;
+        
+        await enviarAdmin(id, stockActual, parseFloat(nuevoPrecioStr), nuevoNombre.trim());
+    }
+}
+
+async function enviarAdmin(id, stock, precio, nombre) {
+    let res = await fetch('/admin_actualizar', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({id, stock: parseInt(nuevoStock)})
+        body: JSON.stringify({id, stock, precio, nombre})
     });
     let d = await res.json();
     alert(d.msj);
     cargar();
 }
+
 function cerrarModal(id) { document.getElementById(id).style.display = 'none'; }
 function limpiar() { document.getElementById('busq').value = ''; document.getElementById('lista').style.display = 'none'; }
+
 async function guardar() {
     let codigo = document.getElementById('reg-cod').value;
     let nombre = document.getElementById('reg-nom').value;
@@ -208,6 +231,7 @@ async function guardar() {
     document.getElementById('reg-cod').value = ''; document.getElementById('reg-nom').value = ''; document.getElementById('reg-pre').value = ''; document.getElementById('reg-can').value = '';
     cargar();
 }
+
 function add(id, nombre, precio, stock) {
     let item = cart.find(x => x.id === id);
     let cant = item ? item.cant : 0;
@@ -216,6 +240,7 @@ function add(id, nombre, precio, stock) {
         renderCart();
     } else { alert('Stock máximo alcanzado'); }
 }
+
 function renderCart() {
     let c = document.getElementById('carrito');
     let tasa = parseFloat(document.getElementById('tasa').value) || 1;
@@ -229,13 +254,16 @@ function renderCart() {
     document.getElementById('tot-d').innerText = formatoMoneda(totD);
     document.getElementById('tot-b').innerText = formatoMoneda(totD * tasa);
 }
+
 function calc() { 
     renderCart(); 
     if(document.getElementById('modal-stk').style.display === 'block') renderStk();
     let q = document.getElementById('busq').value;
     if(q) filtrar();
 }
+
 function cancelar() { if(cart.length && confirm('¿Cancelar compra?')) { cart = []; renderCart(); } }
+
 async function cobrar() {
     if(cart.length === 0) { alert('Carrito vacío'); return; }
     let tasa = parseFloat(document.getElementById('tasa').value) || 1;
@@ -251,6 +279,7 @@ async function cobrar() {
         cart = []; renderCart(); cargar();
     }
 }
+
 async function verVentas() {
     document.getElementById('modal-ven').style.display = 'block';
     let r = await fetch('/ventas');
@@ -264,12 +293,14 @@ async function verVentas() {
     }).join('');
     c.innerHTML = `<div style="background:#e8daef;padding:8px;margin-bottom:10px;border-radius:4px;"><b>Total USD:</b> $${formatoMoneda(totUSD)}<br><b>Total VES:</b> Bs. ${formatoMoneda(totBS)}</div>` + html;
 }
+
 window.addEventListener('keydown', e => {
     if(e.key==='F1'){ e.preventDefault(); verStock(); }
     else if(e.key==='F2'){ e.preventDefault(); limpiar(); cerrarModal('modal-stk'); cerrarModal('modal-ven'); cerrarModal('modal-tic'); }
     else if(e.ctrlKey && e.key==='3'){ e.preventDefault(); cobrar(); }
     else if(e.ctrlKey && e.key==='4'){ e.preventDefault(); cancelar(); }
 });
+
 cargar();
 </script>
 </body>
@@ -295,23 +326,17 @@ def add_p():
     conn.close()
     return jsonify({'msj': msj})
 
-@app.route('/reponer', methods=['POST'])
-def rep():
+# Ruta unificada y protegida para actualizaciones de administrador (Stock, Precio y Nombre)
+@app.route('/admin_actualizar', methods=['POST'])
+def admin_actualizar():
     d = request.json
     conn = sqlite3.connect('inventario.db')
     c = conn.cursor()
-    c.execute("UPDATE productos SET stock = stock + ? WHERE id = ?", (d['cantidad'], d['id']))
-    conn.commit(); conn.close()
-    return jsonify({'ok': True})
-
-@app.route('/ajuste_admin', methods=['POST'])
-def ajuste_admin():
-    d = request.json
-    conn = sqlite3.connect('inventario.db')
-    c = conn.cursor()
-    c.execute("UPDATE productos SET stock = ? WHERE id = ?", (d['stock'], d['id']))
-    conn.commit(); conn.close()
-    return jsonify({'msj': '¡Stock ajustado correctamente por Administrador!'})
+    c.execute("UPDATE productos SET stock = ?, precio = ?, nombre = ? WHERE id = ?", 
+              (d['stock'], d['precio'], d['nombre'], d['id']))
+    conn.commit()
+    conn.close()
+    return jsonify({'msj': '¡Producto actualizado correctamente por Administrador!'})
 
 @app.route('/venta', methods=['POST'])
 def venta():
