@@ -89,4 +89,920 @@
   { "codigo": "REP-088", "nombre": "PECHERA PVC MORADO", "precio": 15.00, "stock": 2 },
   { "codigo": "REP-089", "nombre": "PIÑON 15T HORSE/CG150 MP", "precio": 12.50, "stock": 2 },
   { "codigo": "REP-090", "nombre": "TACOMETRO BRF HONGJU", "precio": 32.00, "stock": 2 }
-]
+  {
+    "codigo": "MZ-SC32",
+    "producto": "BOMBILLO STOP LED UNIVERSAL BLANCO (E)",
+    "cant": 5,
+    "precio_unitario": 2.21
+  },
+  {
+    "codigo": "VK206B",
+    "producto": "BOMBILLO STOP LED UNIVERSAL SILICON BLANCO (E)",
+    "cant": 5,
+    "precio_unitario": 1.76
+  },
+  {
+    "codigo": "MZ-1988",
+    "producto": "LUZ CRUCE EK-EXPRESS-2 DELANTERA LED (E)",
+    "cant": 4,
+    "precio_unitario": 4.37
+  },
+  {
+    "codigo": "MZ1989-",
+    "producto": "LUZ CRUCE EK-EXPRESS-2 TRASERA LED (E)",
+    "cant": 4,
+    "precio_unitario": 4.33
+  },
+  {
+    "codigo": "MZ-1981",
+    "producto": "LUZ CRUCE ESV ORIGINAL (PAR) (E)",
+    "cant": 4,
+    "precio_unitario": 6.34
+  },
+  {
+    "codigo": "MZ-2248",
+    "producto": "LUZ CRUCE ESV-2025 MEGAZUKI (E)",
+    "cant": 8,
+    "precio_unitario": 4.00
+  },
+  {
+    "codigo": "MZ-179",
+    "producto": "LUZ CRUCE H-150 MICA NARANJADA (E)",
+    "cant": 8,
+    "precio_unitario": 2.47
+  },
+  {
+    "codigo": "03R",
+    "producto": "PITILLO COLOS ROJO (E)",
+    "cant": 11,
+    "precio_unitario": 4.68
+  },
+  {
+    "codigo": "038",
+    "producto": "PITILLO COLOS BLANCO (E)",
+    "cant": 2,
+    "precio_unitario": 5.15
+  },
+  {
+    "codigo": "03A",
+    "producto": "PITILLO COLOS AZUL (E)",
+    "cant": 2,
+    "precio_unitario": 4.68
+  },
+  {
+    "codigo": "VK507",
+    "producto": "RALLOS TORNEADOS CROMADO PQ72 UNI CG150 (E)",
+    "cant": 4,
+    "precio_unitario": 17.10
+  },
+  {
+    "codigo": "MZ-1167",
+    "producto": "STOP FRENO COMPLETO GN 125 MEGAZUKI (Ε)",
+    "cant": 1,
+    "precio_unitario": 15.60
+  },
+  {
+    "codigo": "MZ-795",
+    "producto": "STOP FRENO COMPLETO A-150 MEGAZUKI (E)",
+    "cant": 1,
+    "precio_unitario": 6.76
+  },
+  {
+    "codigo": "MZ-2286",
+    "producto": "STOP FRENO COMPLETO A-BRF MEGAZUZKI (E)",
+    "cant": 1,
+    "precio_unitario": 13.96
+  },
+  {
+    "codigo": "MZ-2128",
+    "producto": "BOMBILLO LED PARA FARO ESV ORIGINAL (E)",
+    "cant": 1,
+    "precio_unitario": 5.68
+  },
+  {
+    "codigo": "MO334",
+    "producto": "FARO COMPLETO EK-EXPRESS MOBILE (E)",
+    "cant": 1,
+    "precio_unitario": 15.21
+  },
+  {
+    "codigo": "MB608",
+    "producto": "LIGA FRENO DOT3 250ML PROLUB (E)",
+    "cant": 2,
+    "precio_unitario": 4.47
+  },
+  {
+    "codigo": "P152029",
+    "producto": "",
+    "cant": 6,
+    "precio_unitario": 5.72
+  },
+  {
+    "codigo": "MZ-103",
+    "producto": "MANILLA CROCHE CON BASE A-150 MEGAZUKI/PHOMSU (E) MANILLA CROCHE CON BASE JORSE (E)",
+    "cant": 6,
+    "precio_unitario": 5.00
+  },
+  {
+    "codigo": "LP396",
+    "producto": "BASE MANILLA CROCHE A-150 (E)",
+    "cant": 2,
+    "precio_unitario": 2.47
+  },
+  {
+    "codigo": "MZ-2219",
+    "producto": "MANILLA FRENO COMPLETA A-BRF MEGAZUKI (E)",
+    "cant": 4,
+    "precio_unitario": 5.73
+  },
+  {
+    "codigo": "LP483",
+    "producto": "MANILLA FRENO SOLA H-150 (E)",
+    "cant": 3,
+    "precio_unitario": 1.92
+  },
+  {
+    "codigo": "LP394",
+    "producto": "MANILLA CROCHE SOLA A-150 (E)",
+    "cant": 4,
+    "precio_unitario": 1.89
+  },
+  {
+    "codigo": "LP395",
+    "producto": "MANILLA CROCHE SOLA HORSE (E)",
+    "cant": 4,
+    "precio_unitario": 1.82
+  },
+  {
+    "codigo": "MZ-95",
+    "producto": "BOMBA DE FRENO DELANTERA H-150 MEGAZUKI/CARIBEZUKI (E)",
+    "cant": 4,
+    "precio_unitario": 9.75
+  },
+  {
+    "codigo": "MZ-2249",
+    "producto": "BOMBA DE FRENO ESV-2025 MEGAZUKI (E)",
+    "cant": 2,
+    "precio_unitario": 15.08
+  },
+  {
+    "codigo": "MZ-325",
+    "producto": "BOMBA DE FRENO TRASERA TEX200 MEGAZUKI (E)",
+    "cant": 1,
+    "precio_unitario": 16.71
+  },
+  {
+    "codigo": "MZ-134",
+    "producto": "BUJE AMORTIGUADOR UNIVERSAL MEGAZUKI (E)",
+    "cant": 5,
+    "precio_unitario": 1.23
+  },
+  {
+    "codigo": "ME007",
+    "producto": "PARRILLA CARGA OWEN150 (E)",
+    "cant": 1,
+    "precio_unitario": 28.38
+  },
+  {
+    "codigo": "MZ-1662N",
+    "producto": "PARRILLA CARGA ESV NEGRA MOZUKI (E)",
+    "cant": 1,
+    "precio_unitario": 26.65
+  },
+  {
+    "codigo": "G10205",
+    "producto": "TACOMETRO DIGITAL EK-EXPRESS MARKY (E)",
+    "cant": 1,
+    "precio_unitario": 68.38
+  },
+  {
+    "codigo": "MZ-1437",
+    "producto": "TUBO ESCAPE EK-EXPRESS NEGRO MEGAZUKI (E)",
+    "cant": 1,
+    "precio_unitario": 52.00
+  },
+  {
+    "codigo": "LP359",
+    "producto": "RETROVISOR EK EXPRESS NEGRO MOTO FLAS (E)",
+    "cant": 2,
+    "precio_unitario": 4.55
+  },
+  {
+    "codigo": "MZ-1294M",
+    "producto": "PROTECTOR PECHERA MOTOR PLASTICO MORADO (E)",
+    "cant": 1,
+    "precio_unitario": 5.20
+  },
+  {
+    "codigo": "MZ-1294B",
+    "producto": "PROTECTOR PECHERA MOTOR PLASTICO BLANCO (E)",
+    "cant": 1,
+    "precio_unitario": 5.20
+  },
+  {
+    "codigo": "MZ-1294A",
+    "producto": "PROTECTOR PECHERA MOTOR PLASTICO AZUL (E)",
+    "cant": 1,
+    "precio_unitario": 5.20
+  },
+  {
+    "codigo": "MF180",
+    "producto": "PROTECTOR PECHERA MOTOR PLASTICO NEGRO (E)",
+    "cant": 1,
+    "precio_unitario": 5.20
+  },
+  {
+    "codigo": "MZ-2134",
+    "producto": "PORTA MALETERA UNIVERSAL NEGRA (E)",
+    "cant": 2,
+    "precio_unitario": 12.35
+  },
+  {
+    "codigo": "LP502",
+    "producto": "KIT RESORTE CG150 MOTO FLAS (E)",
+    "cant": 8,
+    "precio_unitario": 1.43
+  },
+  {
+    "codigo": "MZ-1673",
+    "producto": "ESTOPERA BASTON CG150 27*37*10.5 MEGAZUKI (E)",
+    "cant": 2,
+    "precio_unitario": 1.10
+  },
+  {
+    "codigo": "MZ-52",
+    "producto": "ESTOPERA BASTON H-150 31 43*10.3 MEGAZUKI (E)",
+    "cant": 2,
+    "precio_unitario": 1.21
+  },
+  {
+    "codigo": "MG712",
+    "producto": "ESTOPERA BASTON JAOYIN MOZUKI (E)",
+    "cant": 1,
+    "precio_unitario": 0.88
+  },
+  {
+    "codigo": "GP541",
+    "producto": "BARRA POSA PIE CON GOMA CG150 GP (E)",
+    "cant": 1,
+    "precio_unitario": 9.75
+  },
+  {
+    "codigo": "ME552",
+    "producto": "BARRA POSA PIE CON GOMA EK-EXPRESS MOZUKI (E)",
+    "cant": 1,
+    "precio_unitario": 17.75
+  },
+  {
+    "codigo": "ME551",
+    "producto": "BARRA POSA PIE CON GOMA H-150 MEGAZUKI (E)",
+    "cant": 1,
+    "precio_unitario": 11.31
+  },
+  {
+    "codigo": "ME468",
+    "producto": "BURRO CENTRAL JORSE (E)",
+    "cant": 1,
+    "precio_unitario": 11.44
+  },
+  {
+    "codigo": "ME467",
+    "producto": "BURRO CENTRAL CG150 (E)",
+    "cant": 1,
+    "precio_unitario": 11.05
+  },
+  {
+    "codigo": "MZ-2247",
+    "producto": "REFLECTOR PORTA PLACA CUADRADO ROJO (E)",
+    "cant": 8,
+    "precio_unitario": 0.98
+  },
+  {
+    "codigo": "J2128M",
+    "producto": "TAPA VALVULA LUJO 4 PIEZA MORADA (E)",
+    "cant": 1,
+    "precio_unitario": 5.32
+  },
+  {
+    "codigo": "J2128P",
+    "producto": "TAPA VALVULA MISIL LUJO 4 PIEZA PLATEADA (E)",
+    "cant": 2,
+    "precio_unitario": 5.32
+  },
+  {
+    "codigo": "J2128T",
+    "producto": "TAPA VALVULA MISIL LUJO 4 PIEZA TORNASOL (E)",
+    "cant": 2,
+    "precio_unitario": 5.32
+  },
+  {
+    "codigo": "ME614",
+    "producto": "PICA CADENA MOZUKI (E)",
+    "cant": 2,
+    "precio_unitario": 5.85
+  },
+  {
+    "codigo": "MZ-2150P",
+    "producto": "PLACA PROTAPER (E)",
+    "cant": 1,
+    "precio_unitario": 2.47
+  },
+  {
+    "codigo": "MZ-2150B",
+    "producto": "PLACA BANDERIN VENEZUELA (E)",
+    "cant": 1,
+    "precio_unitario": 2.47
+  },
+  {
+    "codigo": "MZ-2150A",
+    "producto": "PLACA ALPINESTARS (E)",
+    "cant": 1,
+    "precio_unitario": 2.47
+  },
+  {
+    "codigo": "MZ-2150E",
+    "producto": "PLACA EMPIRE (E)",
+    "cant": 1,
+    "precio_unitario": 2.47
+  },
+  {
+    "codigo": "LSM-7030A",
+    "producto": "TAPA TORNILLO PLASTICA MODELO LSM-7030 AZUL CARTONX30 (E)",
+    "cant": 1,
+    "precio_unitario": 2.50
+  },
+  {
+    "codigo": "LSM-7030M",
+    "producto": "TAPA TORNILLO PLASTICA MODELO LSM-7030 MORADA (E)",
+    "cant": 1,
+    "precio_unitario": 2.50
+  },
+  {
+    "codigo": "LSM-7030N",
+    "producto": "TAPA TORNILLO PLASTICA MODELO LSM-7030 NEGRO (E)",
+    "cant": 1,
+    "precio_unitario": 2.50
+  },
+  {
+    "codigo": "LSM-7030P",
+    "producto": "TAPA TORNILLO PLASTICA MODELO LSM-7030 PLATEA (E)",
+    "cant": 1,
+    "precio_unitario": 2.50
+  },
+  {
+    "codigo": "LSM-7030R",
+    "producto": "TAPA TORNILLO PLASTICA MODELO LSM-7030 ROJO (E)",
+    "cant": 1,
+    "precio_unitario": 2.50
+  },
+  {
+    "codigo": "84A",
+    "producto": "PROTECTOR DE ZAPATO AZUL (E)",
+    "cant": 1,
+    "precio_unitario": 2.37
+  },
+  {
+    "codigo": "84B",
+    "producto": "PROTECTOR DE ZAPATO BLANCO (E)",
+    "cant": 11,
+    "precio_unitario": 2.37
+  },
+  {
+    "codigo": "84F",
+    "producto": "PROTECTOR DE ZAPATO FUCSIA (E)",
+    "cant": 1,
+    "precio_unitario": 2.37
+  },
+  {
+    "codigo": "84N",
+    "producto": "PROTECTOR DE ZAPATO NEGRO (E)",
+    "cant": 1,
+    "precio_unitario": 2.37
+  },
+  {
+    "codigo": "84R",
+    "producto": "PROTECTOR DE ZAPATO ROJO (E)",
+    "cant": 1,
+    "precio_unitario": 2.37
+  },
+  {
+    "codigo": "MB133",
+    "producto": "PORTA CELULAR CON USB TIPO ARANA MOZUKI (E)",
+    "cant": 4,
+    "precio_unitario": 9.67
+  },
+  {
+    "codigo": "MZ-187",
+    "producto": "MALLA ASIENTO UNIVERSAL NEGRA XL (E)",
+    "cant": 5,
+    "precio_unitario": 4.55
+  },
+  {
+    "codigo": "32125",
+    "producto": "BOLSA ASIENTO COJIN (E)",
+    "cant": 5,
+    "precio_unitario": 2.96
+  },
+  {
+    "codigo": "JM022",
+    "producto": "BOLSA TRANSPARENTE PARA FORRAR ASIENTO UNIVERSAL (E)",
+    "cant": 5,
+    "precio_unitario": 1.30
+  },
+  {
+    "codigo": "MZ-53",
+    "producto": "INSTALACION A-150 MEGAZUKI (E)",
+    "cant": 1,
+    "precio_unitario": 17.68
+  },
+  {
+    "codigo": "MZ-2183",
+    "producto": "INSTALACION CG150 MEGAZUKI (E)",
+    "cant": 1,
+    "precio_unitario": 15.69
+  },
+  {
+    "codigo": "MZ-1589",
+    "producto": "INSTALACION EK-EXPRESS MEGAZUKI (E)",
+    "cant": 1,
+    "precio_unitario": 19.32
+  },
+  {
+    "codigo": "MZ-238",
+    "producto": "INSTALACION H-150 MEGAZUKI (E)",
+    "cant": 1,
+    "precio_unitario": 17.03
+  },
+  {
+    "codigo": "MC405",
+    "producto": "MANDO A-150 MOZUKI (E)",
+    "cant": 1,
+    "precio_unitario": 11.05
+  },
+  {
+    "codigo": "LP279",
+    "producto": "MANDO ESV MOTO FLAS (E)",
+    "cant": 1,
+    "precio_unitario": 13.00
+  },
+  {
+    "codigo": "MZ-1681",
+    "producto": "MANDO GY6 MEGAZUKI (E)",
+    "cant": 1,
+    "precio_unitario": 16.71
+  },
+  {
+    "codigo": "MC402",
+    "producto": "MANDO JORSE MOZUKI (E)",
+    "cant": 1,
+    "precio_unitario": 11.31
+  },
+  {
+    "codigo": "MZ-436",
+    "producto": "MANDO JAOYIN MEGAZUKI (E)",
+    "cant": 1,
+    "precio_unitario": 11.51
+  },
+  {
+    "codigo": "MZ-285",
+    "producto": "BANDERIN MEGAZUKI 2.8M TS (E)",
+    "cant": 1,
+    "precio_unitario": 26.00
+  },
+  {
+    "codigo": "A2088",
+    "producto": "KIT CALCOMANIA GUARDABARRO TORNASOL (E)",
+    "cant": 3,
+    "precio_unitario": 2.99
+  },
+  {
+    "codigo": "JS115TF",
+    "producto": "LINEA DE RINES TORNASOL FUCSIA (E)",
+    "cant": 1,
+    "precio_unitario": 4.49
+  },
+  {
+    "codigo": "JS115TR",
+    "producto": "LINEA DE RINES TORNASOL ROJO (E)",
+    "cant": 2,
+    "precio_unitario": 4.49
+  },
+  {
+    "codigo": "JS115N",
+    "producto": "LINEA DE RINES NEGRO (E)",
+    "cant": 1,
+    "precio_unitario": 4.49
+  },
+  {
+    "codigo": "A2078",
+    "producto": "CALCOMANIA DE VINIL TORNASOL (E)",
+    "cant": 6,
+    "precio_unitario": 2.96
+  },
+  {
+    "codigo": "59JSB",
+    "producto": "KIT CALCOMANIA TANQUE BLANCO SBR (E)",
+    "cant": 2,
+    "precio_unitario": 4.76
+  },
+  {
+    "codigo": "57TBERA",
+    "producto": "KIT CALCOMANIA TANQUE TORNASOL BERA SOCIALISTA (E)",
+    "cant": 2,
+    "precio_unitario": 6.08
+  },
+  {
+    "codigo": "VK361N",
+    "producto": "CASCO SERMI INTEGRAL NEGRO MATE (E)",
+    "cant": 3,
+    "precio_unitario": 27.12
+  },
+  {
+    "codigo": "VK361B",
+    "producto": "CASCO SERMI INTEGRAL BLANCO (E)",
+    "cant": 3,
+    "precio_unitario": 27.12
+  },
+  {
+    "codigo": "JS115TA",
+    "producto": "LINEA DE RINES TORNASOL AZUL (E)",
+    "cant": 1,
+    "precio_unitario": 4.49
+  },
+  {
+    "codigo": "MZ-2221",
+    "producto": "MANUBRIO ESV-2025 NEGRO (E)",
+    "cant": 1,
+    "precio_unitario": 9.62
+  },
+  {
+    "codigo": "MZ-1662C",
+    "producto": "PARRILLA CARGA ESV CROMADA (E)",
+    "cant": 1,
+    "precio_unitario": 27.95
+  },
+  {
+    "codigo": "MZ-1797",
+    "producto": "BANDA FRENO EX-JORSE ACANALADA MEGAZUKI (E)",
+    "cant": 2,
+    "precio_unitario": 4.68
+  },
+  {
+    "codigo": "MBS41",
+    "producto": "BANDA FRENO H-150 MOZUKI (E)",
+    "cant": 5,
+    "precio_unitario": 4.50
+  },
+  {
+    "codigo": "MBS40",
+    "producto": "BANDA FRENO GN MOZUKI (E)",
+    "cant": 10,
+    "precio_unitario": 4.89
+  },
+  {
+    "codigo": "MZ-2096",
+    "producto": "BANDA FRENO CG RIN DE RAYO ACANALADA MEGAZUKI (E)",
+    "cant": 3,
+    "precio_unitario": 4.45
+  },
+  {
+    "codigo": "L3015",
+    "producto": "KIT EMPACADURA CG150 LIJIANG (E)",
+    "cant": 6,
+    "precio_unitario": 3.15
+  },
+  {
+    "codigo": "L3017",
+    "producto": "KIT EMPACADURA OVEN-2011 LIJIANG (E)",
+    "cant": 2,
+    "precio_unitario": 3.25
+  },
+  {
+    "codigo": "MZ-554",
+    "producto": "KIT EMPACADURA OVEN-2014 CLASE A MEGAZUKI (E)",
+    "cant": 2,
+    "precio_unitario": 4.45
+  },
+  {
+    "codigo": "MZ-242",
+    "producto": "GUAYA CROCHE CG150 MEGAZUKI (E)",
+    "cant": 2,
+    "precio_unitario": 1.87
+  },
+  {
+    "codigo": "MZ-2293",
+    "producto": "GUAYA CROCHE EK-OVEN2 MEGAZUKI (E)",
+    "cant": 2,
+    "precio_unitario": 4.97
+  },
+  {
+    "codigo": "M8389",
+    "producto": "GUAYA CROCHE EK-JORSE MEGAZUKI (E)",
+    "cant": 3,
+    "precio_unitario": 2.41
+  },
+  {
+    "codigo": "MZ-2299",
+    "producto": "GUAYA CROCHE ESV-2025 MEGAZUKI (E)",
+    "cant": 2,
+    "precio_unitario": 2.37
+  },
+  {
+    "codigo": "MZ-244",
+    "producto": "GUAYA CROCHE OVEN-2011 MEGAZUKI (E)",
+    "cant": 2,
+    "precio_unitario": 2.02
+  },
+  {
+    "codigo": "MZ-247",
+    "producto": "GUAYA CROCHE OVEN-2014 MEGAZUKI (E)",
+    "cant": 2,
+    "precio_unitario": 1.87
+  },
+  {
+    "codigo": "M8378",
+    "producto": "GUAYA ACELERACION A-150 MOZUKI (E)",
+    "cant": 2,
+    "precio_unitario": 1.70
+  },
+  {
+    "codigo": "MZ1689-",
+    "producto": "GUAYA ACELERACION EK-EXPRESS MEGAZUKI (E)",
+    "cant": 2,
+    "precio_unitario": 1.79
+  },
+  {
+    "codigo": "MZ-2301",
+    "producto": "GUAYA ACELERACION ESV-2025 MEGAZUKI (E)",
+    "cant": 2,
+    "precio_unitario": 1.92
+  },
+  {
+    "codigo": "MB373",
+    "producto": "GUAYA ACELERACION JORSE MOZUKI (E)",
+    "cant": 1,
+    "precio_unitario": 2.18
+  },
+  {
+    "codigo": "MZ-401",
+    "producto": "TUBO ESCAPE CG150 HUECO GRANDE CROMADO MEGAZUKI (E)",
+    "cant": 1,
+    "precio_unitario": 43.72
+  },
+  {
+    "codigo": "M9895",
+    "producto": "TUBO ESCAPE JORSE MOBILE (E).",
+    "cant": 1,
+    "precio_unitario": 52.00
+  },
+  {
+    "codigo": "MZ-1639",
+    "producto": "ACEITE PARA BASTON 120ML MEGAZUKI (E)",
+    "cant": 10,
+    "precio_unitario": 2.37
+  },
+  {
+    "codigo": "DF-1",
+    "producto": "ANTI ESPICHE 500ML AZUL DEG (E)",
+    "cant": 15,
+    "precio_unitario": 2.51
+  },
+  {
+    "codigo": "G2282",
+    "producto": "BUJIA A27C GY6 MARKY (E)",
+    "cant": 20,
+    "precio_unitario": 1.03
+  },
+  {
+    "codigo": "G2213",
+    "producto": "BUJIA CG150 JAGUAR DBTC PUNTA DIAMANTE GP (E)",
+    "cant": 10,
+    "precio_unitario": 1.30
+  },
+  {
+    "codigo": "MA689",
+    "producto": "BUJIA DBFIX IRIDIUM (E)",
+    "cant": 10,
+    "precio_unitario": 1.56
+  },
+  {
+    "codigo": "MA673",
+    "producto": "BUJIA DBTC CG150 MOZUKI (E)",
+    "cant": 10,
+    "precio_unitario": 1.26
+  },
+  {
+    "codigo": "MZ-313",
+    "producto": "RUEDA DETC PUNTA DIAMANTE MEGAZUKI (E)",
+    "cant": 1,
+    "precio_unitario": 18.85
+  },
+  {
+    "codigo": "C2673",
+    "producto": "TRIPA 3.00-18 CARTRICUZI (E)",
+    "cant": 4,
+    "precio_unitario": 4.85
+  },
+  {
+    "codigo": "MZ-79",
+    "producto": "TRIPA 110/90-18 MEGAZUKI (E)",
+    "cant": 3,
+    "precio_unitario": 5.80
+  },
+  {
+    "codigo": "MG527",
+    "producto": "ROBINA CG150 GLOZUKI (E)",
+    "cant": 4,
+    "precio_unitario": 4.62
+  },
+  {
+    "codigo": "MZ-6301",
+    "producto": "ROLINERA 6301 MEGAZUKI (E)",
+    "cant": 20,
+    "precio_unitario": 1.18
+  },
+  {
+    "codigo": "6302",
+    "producto": "ROLINERA 6302 MEGAZUKI (E)",
+    "cant": 20,
+    "precio_unitario": 1.60
+  },
+  {
+    "codigo": "6204",
+    "producto": "ROLINERA 6204 ΚΟΥΟ/ΑΝΤIAGUA TIPO A MEGAZUKI (E)",
+    "cant": 20,
+    "precio_unitario": 1.92
+  },
+  {
+    "codigo": "6004",
+    "producto": "ROLINERA 6004 MOZUKI/MEGAZUKI (E)",
+    "cant": 20,
+    "precio_unitario": 1.42
+  },
+  {
+    "codigo": "6203",
+    "producto": "ROLINERA 6203 MEGAZUKI/KOYO (E)",
+    "cant": 28,
+    "precio_unitario": 1.30
+  },
+  {
+    "codigo": "MZ-70",
+    "producto": "REGULADOR CG150 MEGAZUKI (E)",
+    "cant": 3,
+    "precio_unitario": 5.00
+  },
+  {
+    "codigo": "MZ-71",
+    "producto": "REGULADOR JORSE MEGAZUKI (E)",
+    "cant": 2,
+    "precio_unitario": 4.02
+  },
+  {
+    "codigo": "MZ-1268",
+    "producto": "RETROVISOR ESV MOTO FLAS (E)",
+    "cant": 3,
+    "precio_unitario": 4.68
+  },
+  {
+    "codigo": "VK336",
+    "producto": "RETROVISOR KLR-650 LIJIANG (E)",
+    "cant": 2,
+    "precio_unitario": 6.67
+  },
+  {
+    "codigo": "MZ-1351",
+    "producto": "BATERIA SECA JAGUAR 12V6.5AH NEGRA MEGAZUKI (E)",
+    "cant": 2,
+    "precio_unitario": 30.80
+  },
+  {
+    "codigo": "MZ-1346",
+    "producto": "BATERIA SECA H-150 12N7B-BS NEGRA MEGAZUKI (E)",
+    "cant": 1,
+    "precio_unitario": 35.32
+  },
+  {
+    "codigo": "MG488",
+    "producto": "CAUCHO 2.75-18TL-8PR BL-382 MOZUKI (E)",
+    "cant": 1,
+    "precio_unitario": 35.36
+  },
+  {
+    "codigo": "MF786",
+    "producto": "CAUCHO 2.75-18TL-8PR BL682 MOZUKI (E)",
+    "cant": 1,
+    "precio_unitario": 42.09
+  },
+  {
+    "codigo": "MF781",
+    "producto": "CAUCHO 90/90-18TL 8PR BL-682 PISTA MOZUKI (E)",
+    "cant": 1,
+    "precio_unitario": 49.14
+  },
+  {
+    "codigo": "MG379",
+    "producto": "CAUCHO 90/90-18TL 8PR BL-215 PISTA MOZUKI (E)",
+    "cant": 2,
+    "precio_unitario": 53.14
+  },
+  {
+    "codigo": "MZ-47",
+    "producto": "ARBOL DE LEVA CG150 GLOZUKI (E)",
+    "cant": 2,
+    "precio_unitario": 8.97
+  },
+  {
+    "codigo": "MZ-187",
+    "producto": "PASTILLA FRENO A-150 MEGAZUKI (E)",
+    "cant": 4,
+    "precio_unitario": 18.59
+  },
+  {
+    "codigo": "MZ-184",
+    "producto": "PASTILLA FRENO CG150 MEGAZUKI (E)",
+    "cant": 4,
+    "precio_unitario": 18.06
+  },
+  {
+    "codigo": "MZ-185",
+    "producto": "PASTILLA FRENO H-150 MEGAZUKI (E)",
+    "cant": 4,
+    "precio_unitario": 1.76
+  },
+  {
+    "codigo": "MZ-186",
+    "producto": "PASTILLA FRENO GN MEGAZUKI (E)",
+    "cant": 3,
+    "precio_unitario": 1.56
+  },
+  {
+    "codigo": "MZ-412",
+    "producto": "C.D.I CG150 MEGAZUKI (E)",
+    "cant": 4,
+    "precio_unitario": 1.76
+  },
+  {
+    "codigo": "MDA20",
+    "producto": "C.D.I H-150 MOBILE (E)",
+    "cant": 1,
+    "precio_unitario": 1.73
+  },
+  {
+    "codigo": "MO575",
+    "producto": "C.D.I GY6 MOZUKI (E)",
+    "cant": 4,
+    "precio_unitario": 2.99
+  },
+  {
+    "codigo": "ME548",
+    "producto": "FILTRO GASOLINA PAQ X 100 MOZUKI/MEGAZUKI (E)",
+    "cant": 1,
+    "precio_unitario": 8.45
+  },
+  {
+    "codigo": "B28",
+    "producto": "KIT DE GOMAS BLANCO CON PORTA PLACA Y LLAVERO (E)",
+    "cant": 2,
+    "precio_unitario": 2.77
+  },
+  {
+    "codigo": "82F",
+    "producto": "KIT DE GOMAS FUCSIA CON PORTA PLACA Y LLAVERO (E)",
+    "cant": 4,
+    "precio_unitario": 30.55
+  },
+  {
+    "codigo": "MZ-2135A",
+    "producto": "PIPA BUJIA CON LUZ AZUL (E)",
+    "cant": 1,
+    "precio_unitario": 8.16
+  },
+  {
+    "codigo": "MG695",
+    "producto": "KIT RODAJE DORADO H-150 (38-16-128) MOZUKI (E)",
+    "cant": 3,
+    "precio_unitario": 8.16
+  },
+  {
+    "codigo": "MZ-1565",
+    "producto": "CORONA DORADA GN 428-37T MEGAZUKI (E)",
+    "cant": 2,
+    "precio_unitario": 8.16
+  },
+  {
+    "codigo": "MZ-1566",
+    "producto": "CORONA DORADA GN 428-38T MEGAZUKI (E)",
+    "cant": 1,
+    "precio_unitario": 0.86
+  },
+  {
+    "codigo": "MZ-1598",
+    "producto": "CORONA DORADA JAOYIN 428-38T MEGAZUKI (E)",
+    "cant": 2,
+    "precio_unitario": 21.78
+  },
+  {
+    "codigo": "MG633",
+    "producto": "CADENA 428H-128L GLOZUKI (E)",
+    "cant": 2,
+   
