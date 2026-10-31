@@ -124,8 +124,7 @@
   { "codigo": "6302", "nombre": "ROLINERA 6302 MEGAZUKI (E)", "precio": 1.60, "stock": 20 },
   { "codigo": "6204", "nombre": "ROLINERA 6204 KOYO TIPO A MEGAZUKI (E)", "precio": 1.92, "stock": 20 },
   { "codigo": "6004", "nombre": "ROLINERA 6004 MOZUKI/MEGAZUKI (E)", "precio": 1.42, "stock": 20 },
-  { "codigo": "6203", "nombre": "ROLINERA 6203 MEGAZUKI/KOYO (E)", "precio": 1.30, "stock": 28 }
-][
+  { "codigo": "6203", "nombre": "ROLINERA 6203 MEGAZUKI/KOYO (E)", "precio": 1.30, "stock": 28 },
   { "codigo": "MZ-70", "nombre": "REGULADOR CG150 MEGAZUKI (E)", "precio": 5.00, "stock": 3 },
   { "codigo": "MZ-71", "nombre": "REGULADOR JORSE MEGAZUKI (E)", "precio": 4.02, "stock": 2 },
   { "codigo": "MZ-1268", "nombre": "RETROVISOR ESV MOTO FLAS (E)", "precio": 4.68, "stock": 3 },
