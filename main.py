@@ -73,7 +73,7 @@ button:hover { background: #2c3e50; }
 .bcv-box { position: absolute; top: 15px; right: 15px; background: rgba(232, 248, 245, 0.95); border: 1px solid #a3e4d7; padding: 5px 10px; border-radius: 6px; text-align: right; font-size: 12px; color: #16a085; }
 .bcv-box input { width: 75px; padding: 2px; text-align: center; font-weight: bold; margin-left: 5px; }
 .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); }
-.modal-content { background: white; margin: 5% auto; padding: 15px; width: 90%; max-width: 600px; border-radius: 8px; max-height: 80vh; overflow-y: auto; }
+.modal-content { background: white; margin: 5% auto; padding: 15px; width: 90%; max-width: 600px; border-radius: 8px; max-height: 80vh; overflow-y: auto; position: relative; }
 .close-modal { float: right; background: #7f8c8d; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; width: auto; }
 .ticket-box { font-family: monospace; background: #fff8dc; padding: 10px; border: 1px dashed #333; margin-top: 10px; font-size: 13px; }
 .badge-low { background: #c0392b; color: white; font-size: 9px; padding: 2px 4px; border-radius: 3px; }
@@ -110,14 +110,19 @@ button:hover { background: #2c3e50; }
 </div>
 </div>
 
-<!-- MODAL INVENTARIO / ADMIN PROTEGIDO -->
+<!-- MODAL INVENTARIO / ADMIN SIN CONTRASEÑA -->
 <div id="modal-stk" class="modal">
     <div class="modal-content">
         <button class="close-modal" onclick="cerrarModal('modal-stk')">Cerrar</button>
         <h3>📦 Inventario y Panel de Administración</h3>
-        <p style="font-size:12px; color:#555; margin-top:0;">El stock completo se muestra aquí. Para realizar cambios o reposiciones, haga clic en el botón <b>⚙️ Admin</b> (requiere contraseña).</p>
-        <input type="text" id="busq-modal" placeholder="🔍 Buscar producto en el inventario..." onkeyup="renderStk()" style="margin-bottom:10px;">
-        <div id="cont-stk"></div>
+        <p style="font-size:12px; color:#555; margin-top:0;">El stock completo se muestra aquí. Para realizar cambios o reposiciones, haga clic en el botón <b>⚙️ Admin</b>.</p>
+        
+        <!-- Buscador fijo que no se desplaza con la lista -->
+        <div style="position: sticky; top: 0; background: white; padding-bottom: 5px; z-index: 10;">
+            <input type="text" id="busq-modal" placeholder="🔍 Buscar producto en el inventario..." onkeyup="renderStk()" style="margin-bottom:10px; border: 2px solid #34495e;">
+        </div>
+
+        <div id="cont-stk" style="max-height: 400px; overflow-y: auto;"></div>
     </div>
 </div>
 
@@ -174,15 +179,9 @@ function renderStk() {
         </div>`).join('');
 }
 
-// Panel de administración centralizado y protegido
+// Panel de administración directo sin contraseña
 async function panelAdmin(id, codigo, nombreActual, precioActual, stockActual) {
-    let pass = prompt("🔑 Ingrese contraseña de Administrador:");
-    if(pass !== "admin123") {
-        if(pass !== null) alert("Contraseña incorrecta.");
-        return;
-    }
-    
-    let opcion = prompt(`[MODO ADMIN] Producto: "${nombreActual}"\n¿Qué desea hacer?\n1. Sumar stock (Reposición rápida)\n2. Ajustar stock manual (Inventario real)\n3. Editar nombre y/o precio USD\n\n(Ingrese 1, 2 o 3):`);
+    let opcion = prompt(`[PANEL ADMIN] Producto: "${nombreActual}"\n¿Qué desea hacer?\n1. Sumar stock (Reposición rápida)\n2. Ajustar stock manual (Inventario real)\n3. Editar nombre y/o precio USD\n\n(Ingrese 1, 2 o 3):`);
     
     if(opcion === "1") {
         let cant = prompt(`Unidades a sumar para "${nombreActual}" (Stock actual: ${stockActual}):`);
@@ -326,7 +325,6 @@ def add_p():
     conn.close()
     return jsonify({'msj': msj})
 
-# Ruta unificada y protegida para actualizaciones de administrador (Stock, Precio y Nombre)
 @app.route('/admin_actualizar', methods=['POST'])
 def admin_actualizar():
     d = request.json
@@ -336,7 +334,7 @@ def admin_actualizar():
               (d['stock'], d['precio'], d['nombre'], d['id']))
     conn.commit()
     conn.close()
-    return jsonify({'msj': '¡Producto actualizado correctamente por Administrador!'})
+    return jsonify({'msj': '¡Producto actualizado correctamente!'})
 
 @app.route('/venta', methods=['POST'])
 def venta():
