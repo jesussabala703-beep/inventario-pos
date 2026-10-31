@@ -234,7 +234,7 @@
   { "codigo": "MD711", "nombre": "AUTOMATICO HORSE MOTO FLAS (E)", "precio": 7.67, "stock": 2 },
   { "codigo": "MZ-2822", "nombre": "CARBURADOR ESV PZ-26 MEGAZUKI (E)", "precio": 23.89, "stock": 1 },
   { "codigo": "MZ-2284", "nombre": "CARBURADOR CG150 PZ-27 CROMADO MEGAZUKI (E)", "precio": 27.73, "stock": 1 },
-, { "codigo": "MG769", "nombre": "PORTA PLACA ALUMINIO (E)", "precio": 4.32, "stock": 2 },
+  { "codigo": "MG769", "nombre": "PORTA PLACA ALUMINIO (E)", "precio": 4.32, "stock": 2 },
   { "codigo": "MZ-1878N", "nombre": "PORTA PLACA METAL NEGRA (E)", "precio": 4.86, "stock": 4 },
   { "codigo": "MZ-1382", "nombre": "FLOTANTE GASOLINA JORSE MEGAZUKI (E)", "precio": 4.44, "stock": 2 },
   { "codigo": "MZ-2363", "nombre": "COLA PEQUEÑA ESV NEGRO+CROMADO LETRA SBR (E)", "precio": 3.24, "stock": 2 },
